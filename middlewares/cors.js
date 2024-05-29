@@ -1,23 +1,25 @@
-const allowedCors = ["https://pindie-frontend-top.nomorepartiesco.ru"];
+const allowedCors = [
+  "https://practicum.yandex.ru",
+  "https://students-projects.ru",
+  "localhost:3001",
+];
 
 function cors(req, res, next) {
   const { origin } = req.headers;
 
   if (allowedCors.includes(origin)) {
+    // Если это наш друг
     res.header("Access-Control-Allow-Origin", origin);
-    res.header("Access-Control-Allow-Credentials", "true");
+    res.header(
+      "Access-Control-Allow-Methods",
+      "GET,HEAD,PUT,PATCH,POST,DELETE"
+    );
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"
+    );
   }
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
 
-  if (req.method === "OPTIONS") {
-    res.sendStatus(204);
-  } else {
-    next();
-  }
+  next();
 }
-
 module.exports = cors;
